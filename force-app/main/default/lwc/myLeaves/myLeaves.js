@@ -1,5 +1,7 @@
 import { LightningElement, wire } from 'lwc';
-import getMyLeaves from '@salesforce/apex/LeaveRequstController.getMyLeaves';
+import getMyLeaves from '@salesforce/apex/LeaveRequstController.getMyLeaves'; // get apex method for caching
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'; /* used for show success message */
+import Id from '@salesforce/user/Id'; //get current logged in user id
 
 const COLUMNS=[
     { label: 'Request Id', fieldName: 'Name', cellAttributes:{class:{fieldName:'cellClass'}}},
@@ -25,6 +27,9 @@ export default class MyLeaves extends LightningElement {
     myLeavesWireResult;
     columns=COLUMNS;
     showModalPopup = false;
+    objectApiName = 'LeaveRequest__c';
+    recordId='';
+    currentUserId = Id;
 
     @wire(getMyLeaves)
     wiredMyLeaves(result){
@@ -42,5 +47,32 @@ export default class MyLeaves extends LightningElement {
 
     get noRecordsFound(){
         return this.myLeaves.length == 0;
+    }
+
+    popupCloseHandler(){
+        this.showModalPopup=false;
+    }
+    rowActionHandler(event) {
+        this.showModalPopup = true;
+        this.recordId = event.detail.row.Id;
+    }
+
+    successHandler(){
+        this.showModalPopup=false;
+        this.ShowToastEvent('Data saved successfully');
+    }
+
+    newRequestClickHandler() {
+        this.showModalPopup = true;
+        this.recordId = '';
+    }
+
+    ShowToastEvent(message, title ='success', variant='sucess'){
+        const event = new ShowToastEvent({
+            title,
+            message,
+            variant
+        });
+        this.dispatchEvent(event);
     }
 }

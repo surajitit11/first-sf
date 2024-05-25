@@ -1,6 +1,9 @@
 <template>
     <lightning-card>
-        <lightning-datatable key-field="Id" data={myLeaves} columns={columns}></lightning-datatable>
+        <lightning-button-icon icon-name="utility:add" variant="border-filled" slot="actions"
+        onclick={newRequestClickHandler}></lightning-button-icon>
+        <lightning-datatable key-field="Id" data={myLeaves} columns={columns}
+        onrowaction={rowActionHandler}></lightning-datatable>
         <template lwc:if={noRecordsFound}>
             <div class="slds-align_absolute-center slds-text-heading_medium">No records found</div>
         </template>
@@ -19,7 +22,7 @@
                     <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Modal header</h1>
                 </div>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <!--<lightning-record-edit-form object-api-name={objectApiName} record-id={recordId}
+                    <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId}
                         onsuccess={successHandler} onsubmit={submitHandler} lwc:ref="leaveReqeustFrom">
                         <lightning-input-field field-name="User__c" value={currentUserId}> </lightning-input-field>
                         <lightning-input-field field-name="From_Date__c"> </lightning-input-field>
@@ -32,7 +35,7 @@
                             <lightning-button label="Cancel" class="slds-m-left_small" onclick={popupCloseHandler}>
                             </lightning-button>
                         </div>
-                    </lightning-record-edit-form>-->
+                    </lightning-record-edit-form>
                 </div>
 
             </div>
