@@ -16,8 +16,9 @@ node {
     println HUB_ORG
     println SFDC_HOST
     println CONNECTED_APP_CONSUMER_KEY
+    println 'KEY IS1' 
     def toolbelt = tool 'toolbelt'
-
+    println 'KEY IS1' 
     stage('checkout source') {
         // when running in multi-branch job, one must issue this command
         checkout scm
@@ -57,5 +58,5 @@ node {
             println('Hello from a Job DSL script!')
             println(rmsg)
         }
-    }
+    }        
 }
